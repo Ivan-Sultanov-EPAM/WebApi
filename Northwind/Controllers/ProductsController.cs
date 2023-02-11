@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Northwind.Application.Models.Responses;
+using Northwind.Application.Queries.Products;
 using Northwind.Data;
-using Northwind.Models;
+using Northwind.Entities;
 
 namespace Northwind.Controllers
 {
@@ -17,22 +20,24 @@ namespace Northwind.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly NorthwindContext _dbContext;
+        private readonly IMediator _mediator;
 
-        public ProductsController(NorthwindContext dbContext)
+        public ProductsController(NorthwindContext dbContext, IMediator mediator)
         {
             _dbContext = dbContext;
+            _mediator = mediator;
         }
         
         [HttpGet(Name = "Products_GetProducts")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<Products>>> GetProducts()
+        public async Task<ActionResult<IEnumerable<GetProductsResponseDto>>> GetProducts()
         {
-            return await _dbContext.Products.ToListAsync();
+            return await _mediator.Send(new GetProductsQuery());
         }
         
         [HttpGet("{productId}", Name = "Products_GetProductById")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Products>> GetProductById(int productId)
+        public async Task<ActionResult<Product>> GetProductById(int productId)
         {
             var products = await _dbContext.Products.FindAsync(productId);
 
@@ -48,7 +53,7 @@ namespace Northwind.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> EditProduct(int productId, Products product)
+        public async Task<IActionResult> EditProduct(int productId, Product product)
         {
             if (productId != product.ProductId)
             {
@@ -80,7 +85,7 @@ namespace Northwind.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Products>> AddProduct(Products product)
+        public async Task<ActionResult<Product>> AddProduct(Product product)
         {
             _dbContext.Products.Add(product);
             await _dbContext.SaveChangesAsync();
@@ -92,7 +97,7 @@ namespace Northwind.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Products>> DeleteProduct(int productId)
+        public async Task<ActionResult<Product>> DeleteProduct(int productId)
         {
             var products = await _dbContext.Products.FindAsync(productId);
             if (products == null)

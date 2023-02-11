@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Northwind.Data;
-using Northwind.Models;
+using Northwind.Entities;
 
 namespace Northwind.Controllers
 {

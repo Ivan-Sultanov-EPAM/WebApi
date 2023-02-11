@@ -1,3 +1,5 @@
+using System.Reflection;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -28,7 +30,9 @@ namespace Northwind
             services.AddDbContext<NorthwindContext>(options =>
                 options.UseSqlServer(appSettings.ConnectionString));
 
-            services.AddSwaggerGen();
+            services
+                .AddSwaggerGen()
+                .AddMediatR(typeof(Startup).GetTypeInfo().Assembly);
         }
         
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, NorthwindContext dbContext)

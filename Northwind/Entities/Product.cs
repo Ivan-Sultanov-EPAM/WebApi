@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Northwind.Models
+namespace Northwind.Entities
 {
-    public class Products
+    public class Product
     {
         public int ProductId { get; set; }
 

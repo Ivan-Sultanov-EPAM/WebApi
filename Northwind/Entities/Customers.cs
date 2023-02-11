@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 
-namespace Northwind.Models
+namespace Northwind.Entities
 {
-    public class Suppliers
+    public class Customers
     {
-        public int SupplierId { get; set; }
+        public string CustomerId { get; set; }
         public string CompanyName { get; set; }
         public string ContactName { get; set; }
         public string ContactTitle { get; set; }
@@ -15,7 +15,7 @@ namespace Northwind.Models
         public string Country { get; set; }
         public string Phone { get; set; }
         public string Fax { get; set; }
-        public string HomePage { get; set; }
-        public virtual ICollection<Products> Products { get; set; }
+        public virtual ICollection<CustomerCustomerDemo> CustomerCustomerDemo { get; set; }
+        public virtual ICollection<Orders> Orders { get; set; }
     }
 }

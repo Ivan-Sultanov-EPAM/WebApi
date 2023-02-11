@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Northwind.Models
+namespace Northwind.Entities
 {
     public class Employees
     {

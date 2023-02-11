@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Northwind.Models;
+using Northwind.Entities;
 
 namespace Northwind.Data
 {
@@ -11,7 +11,7 @@ namespace Northwind.Data
         }
         
         public virtual DbSet<Categories> Categories { get; set; }
-        public virtual DbSet<Products> Products { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Suppliers> Suppliers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -300,7 +300,7 @@ namespace Northwind.Data
                     .HasConstraintName("FK_Orders_Shippers");
             });
 
-            modelBuilder.Entity<Products>(entity =>
+            modelBuilder.Entity<Product>(entity =>
             {
                 entity.HasKey(e => e.ProductId);
 
