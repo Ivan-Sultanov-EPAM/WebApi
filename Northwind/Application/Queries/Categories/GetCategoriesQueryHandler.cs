@@ -10,7 +10,7 @@ using Northwind.Extensions;
 
 namespace Northwind.Application.Queries.Categories
 {
-    public class GetCategoriesQueryHandler : IRequestHandler<GetCategoriesQuery, List<GetCategoriesResponseDto>>
+    public class GetCategoriesQueryHandler : IRequestHandler<GetCategoriesQuery, List<CategoryResponseDto>>
     {
         private readonly NorthwindContext _dbContext;
 
@@ -19,10 +19,10 @@ namespace Northwind.Application.Queries.Categories
             _dbContext = dbContext;
         }
 
-        public async Task<List<GetCategoriesResponseDto>> Handle(GetCategoriesQuery request, CancellationToken cancellationToken)
+        public async Task<List<CategoryResponseDto>> Handle(GetCategoriesQuery request, CancellationToken cancellationToken)
         {
             return await _dbContext.Categories
-                .Select(p => p.ToGetCategoriesResponseDto())
+                .Select(p => p.ToCategoryResponseDto())
                 .ToListAsync(cancellationToken);
         }
     }

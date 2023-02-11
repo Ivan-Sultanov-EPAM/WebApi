@@ -5,9 +5,9 @@ namespace Northwind.Extensions
 {
     public static class CategoriesExtensions
     {
-        public static GetCategoriesResponseDto ToGetCategoriesResponseDto(this Category category)
+        public static CategoryResponseDto ToCategoryResponseDto(this Category category)
         {
-            return new GetCategoriesResponseDto
+            return new CategoryResponseDto
             {
                 CategoryId = category.CategoryId,
                 CategoryName = category.CategoryName,

@@ -30,23 +30,24 @@ namespace Northwind.Controllers
 
         [HttpGet(Name = "Categories_GetCategories")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<GetCategoriesResponseDto>>> GetCategories()
+        public async Task<ActionResult<IEnumerable<CategoryResponseDto>>> GetCategories()
         {
             return await _mediator.Send(new GetCategoriesQuery());
         }
 
         [HttpGet("{categoryId}", Name = "Categories_GetCategoryById")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Category>> GetCategory(int categoryId)
+        public async Task<ActionResult<CategoryResponseDto>> GetCategory(int categoryId)
         {
-            var categories = await _dbContext.Categories.FindAsync(categoryId);
+            var category = await _mediator
+                .Send(new GetCategoryByIdQuery(categoryId));
 
-            if (categories == null)
+            if (category == null)
             {
                 return NotFound();
             }
 
-            return categories;
+            return category;
         }
 
         [HttpPut("{categoryId}", Name = "Categories_EditCategory")]
