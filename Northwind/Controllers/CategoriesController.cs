@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Northwind.Application.Models.Responses;
+using Northwind.Application.Queries.Categories;
 using Northwind.Data;
 using Northwind.Entities;
 
@@ -17,17 +20,19 @@ namespace Northwind.Controllers
     public class CategoriesController : ControllerBase
     {
         private readonly NorthwindContext _dbContext;
+        private readonly IMediator _mediator;
 
-        public CategoriesController(NorthwindContext dbContext)
+        public CategoriesController(NorthwindContext dbContext, IMediator mediator)
         {
             _dbContext = dbContext;
+            _mediator = mediator;
         }
 
         [HttpGet(Name = "Categories_GetCategories")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
+        public async Task<ActionResult<IEnumerable<GetCategoriesResponseDto>>> GetCategories()
         {
-            return await _dbContext.Categories.ToListAsync();
+            return await _mediator.Send(new GetCategoriesQuery());
         }
 
         [HttpGet("{categoryId}", Name = "Categories_GetCategoryById")]

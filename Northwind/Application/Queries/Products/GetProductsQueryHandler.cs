@@ -22,7 +22,7 @@ namespace Northwind.Application.Queries.Products
         public async Task<List<GetProductsResponseDto>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
         {
             return await _dbContext.Products
-                .Select(p => p.toGetProductsResponseDto())
+                .Select(p => p.ToGetProductsResponseDto())
                 .ToListAsync(cancellationToken);
         }
     }

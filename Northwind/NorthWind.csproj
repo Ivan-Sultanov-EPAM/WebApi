@@ -23,8 +23,6 @@
   <ItemGroup>
     <Folder Include="Application\Commands\Categories\" />
     <Folder Include="Application\Commands\Products\" />
-    <Folder Include="Application\Models\Responses\" />
-    <Folder Include="Application\Queries\Categories\" />
   </ItemGroup>
 
 </Project>
