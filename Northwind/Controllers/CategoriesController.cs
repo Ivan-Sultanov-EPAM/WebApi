@@ -25,14 +25,14 @@ namespace Northwind.Controllers
 
         [HttpGet(Name = "Categories_GetCategories")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<Categories>>> GetCategories()
+        public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
         {
             return await _dbContext.Categories.ToListAsync();
         }
 
         [HttpGet("{categoryId}", Name = "Categories_GetCategoryById")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Categories>> GetCategory(int categoryId)
+        public async Task<ActionResult<Category>> GetCategory(int categoryId)
         {
             var categories = await _dbContext.Categories.FindAsync(categoryId);
 
@@ -48,7 +48,7 @@ namespace Northwind.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> EditCategory(int categoryId, Categories categories)
+        public async Task<IActionResult> EditCategory(int categoryId, Category categories)
         {
             if (categoryId != categories.CategoryId)
             {
@@ -80,7 +80,7 @@ namespace Northwind.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Categories>> AddCategory(Categories category)
+        public async Task<ActionResult<Category>> AddCategory(Category category)
         {
             _dbContext.Categories.Add(category);
             await _dbContext.SaveChangesAsync();
@@ -92,7 +92,7 @@ namespace Northwind.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Categories>> DeleteCategories(int categoryId)
+        public async Task<ActionResult<Category>> DeleteCategories(int categoryId)
         {
             var categories = await _dbContext.Categories.FindAsync(categoryId);
             if (categories == null)
