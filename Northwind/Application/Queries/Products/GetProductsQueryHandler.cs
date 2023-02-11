@@ -10,7 +10,7 @@ using Northwind.Extensions;
 
 namespace Northwind.Application.Queries.Products
 {
-    public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, List<GetProductsResponseDto>>
+    public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, List<ProductResponseDto>>
     {
         private readonly NorthwindContext _dbContext;
 
@@ -19,10 +19,10 @@ namespace Northwind.Application.Queries.Products
             _dbContext = dbContext;
         }
 
-        public async Task<List<GetProductsResponseDto>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
+        public async Task<List<ProductResponseDto>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
         {
             return await _dbContext.Products
-                .Select(p => p.ToGetProductsResponseDto())
+                .Select(p => p.ToProductResponseDto())
                 .ToListAsync(cancellationToken);
         }
     }

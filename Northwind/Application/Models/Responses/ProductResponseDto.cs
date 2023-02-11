@@ -1,6 +1,6 @@
 ﻿namespace Northwind.Application.Models.Responses
 {
-    public class GetProductsResponseDto
+    public class ProductResponseDto
     {
         public int ProductId { get; set; }
         public string ProductName { get; set; }

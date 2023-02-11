@@ -5,9 +5,9 @@ namespace Northwind.Extensions
 {
     public static class ProductExtensions
     {
-        public static GetProductsResponseDto ToGetProductsResponseDto(this Product product)
+        public static ProductResponseDto ToProductResponseDto(this Product product)
         {
-            return new GetProductsResponseDto
+            return new ProductResponseDto
             {
                 ProductId = product.ProductId,
                 ProductName = product.ProductName,
