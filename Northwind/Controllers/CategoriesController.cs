@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -34,7 +35,7 @@ namespace Northwind.Controllers
 
         [HttpGet("{categoryId}", Name = "Categories_GetCategoryById")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<CategoryResponseDto>> GetCategory(int categoryId)
+        public async Task<ActionResult<CategoryResponseDto>> GetCategory([Required] int categoryId)
         {
             var category = await _mediator
                 .Send(new GetCategoryByIdQuery(categoryId));
@@ -51,7 +52,8 @@ namespace Northwind.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> EditCategory(int categoryId, EditCategoryRequestDto categoryDto)
+        public async Task<IActionResult> EditCategory([Required] int categoryId,
+            [Required][FromBody] EditCategoryRequestDto categoryDto)
         {
             if (categoryDto.CategoryName.Length > 15)
             {
@@ -79,7 +81,7 @@ namespace Northwind.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> AddCategory(AddCategoryRequestDto categoryDto)
+        public async Task<ActionResult<int>> AddCategory([Required][FromBody] AddCategoryRequestDto categoryDto)
         {
             if (categoryDto.CategoryName.Length > 15)
             {
@@ -104,7 +106,7 @@ namespace Northwind.Controllers
         [HttpDelete("{categoryId}", Name = "Categories_DeleteCategory")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> DeleteCategories(int categoryId)
+        public async Task<IActionResult> DeleteCategories([Required] int categoryId)
         {
             try
             {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -27,7 +28,8 @@ namespace Northwind.Controllers
         
         [HttpGet(Name = "Products_GetProducts")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<ProductResponseDto>>> GetProducts(int pageNumber = 0, int pageSize = 10, int? categoryId = null)
+        public async Task<ActionResult<IEnumerable<ProductResponseDto>>> GetProducts(
+            int pageNumber = 0, int pageSize = 10, int? categoryId = null)
         {
             return await _mediator
                 .Send(new GetProductsQuery(pageNumber, pageSize, categoryId));
@@ -35,7 +37,7 @@ namespace Northwind.Controllers
         
         [HttpGet("{productId}", Name = "Products_GetProductById")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ProductResponseDto>> GetProductById(int productId)
+        public async Task<ActionResult<ProductResponseDto>> GetProductById([Required] int productId)
         {
             var product = await _mediator
                 .Send(new GetProductByIdQuery(productId));
@@ -52,7 +54,8 @@ namespace Northwind.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> EditProduct(int productId, EditProductRequestDto productDto)
+        public async Task<IActionResult> EditProduct([Required] int productId,
+            [Required][FromBody] EditProductRequestDto productDto)
         {
             try
             {
@@ -75,7 +78,7 @@ namespace Northwind.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> AddProduct(AddProductRequestDto productDto)
+        public async Task<ActionResult<int>> AddProduct([Required][FromBody] AddProductRequestDto productDto)
         {
             int productId;
 
@@ -95,7 +98,7 @@ namespace Northwind.Controllers
         [HttpDelete("{productId}", Name = "Products_DeleteProduct")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> DeleteProduct(int productId)
+        public async Task<IActionResult> DeleteProduct([Required] int productId)
         {
             try
             {

@@ -12,8 +12,8 @@ namespace Northwind.Application.Queries.Products
 
         public GetProductsQuery(int pageNumber, int pageSize, int? categoryId)
         {
-            PageNumber = pageNumber;
-            PageSize = pageSize == 0 ? 10 : pageSize;
+            PageNumber = pageNumber < 0 ? 0 : pageNumber;
+            PageSize = pageSize < 1 ? 1 : pageSize;
             CategoryId = categoryId;
         }
     }
