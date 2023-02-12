@@ -98,21 +98,21 @@ namespace Northwind.Controllers
         }
 
         [HttpDelete("{categoryId}", Name = "Categories_DeleteCategory")]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Category>> DeleteCategories(int categoryId)
+        public async Task<IActionResult> DeleteCategories(int categoryId)
         {
-            var categories = await _dbContext.Categories.FindAsync(categoryId);
-            if (categories == null)
+            try
             {
-                return NotFound();
+                await _mediator
+                    .Send(new DeleteCategoryCommand(categoryId));
+            }
+            catch (KeyNotFoundException e)
+            {
+                return NotFound(e.Message);
             }
 
-            _dbContext.Categories.Remove(categories);
-            await _dbContext.SaveChangesAsync();
-
-            return categories;
+            return Ok();
         }
     }
 }

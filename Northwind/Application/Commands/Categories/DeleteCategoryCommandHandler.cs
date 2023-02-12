@@ -8,16 +8,16 @@ using Northwind.Extensions;
 
 namespace Northwind.Application.Commands.Categories
 {
-    public class EditCategoryCommandHandler : IRequestHandler<EditCategoryCommand, Unit>
+    public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryCommand, Unit>
     {
         private readonly NorthwindContext _dbContext;
 
-        public EditCategoryCommandHandler(NorthwindContext dbContext)
+        public DeleteCategoryCommandHandler(NorthwindContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public async Task<Unit> Handle(EditCategoryCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
         {
             var category = await _dbContext.Categories
                 .FirstOrDefaultAsync(c => c.CategoryId == request.CategoryId, cancellationToken);
@@ -25,7 +25,7 @@ namespace Northwind.Application.Commands.Categories
             if (category == null)
                 throw new KeyNotFoundException($"Category with Id = {request.CategoryId} does not exist");
 
-            category.UpdateCategory(request);
+            _dbContext.Categories.Remove(category);
 
             await _dbContext.SaveChangesAsync(cancellationToken);
 

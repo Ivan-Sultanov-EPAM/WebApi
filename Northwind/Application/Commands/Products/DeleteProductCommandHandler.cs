@@ -22,7 +22,7 @@ namespace Northwind.Application.Commands.Products
                 .FirstOrDefaultAsync(p => p.ProductId == request.ProductId, cancellationToken);
             
             if (product == null)
-                throw new KeyNotFoundException($"Product with Id = {request.ProductId} does not exists");
+                throw new KeyNotFoundException($"Product with Id = {request.ProductId} does not exist");
 
             _dbContext.Products.Remove(product);
             await _dbContext.SaveChangesAsync(cancellationToken);
