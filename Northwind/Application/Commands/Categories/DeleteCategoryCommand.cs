@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Northwind.Application.Models.Requests;
 
 namespace Northwind.Application.Commands.Categories
 {

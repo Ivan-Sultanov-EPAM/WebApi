@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Northwind.Application.Commands.Categories;
 using Northwind.Application.Models.Requests;
 using Northwind.Application.Models.Responses;
 using Northwind.Application.Queries.Categories;
-using Northwind.Data;
-using Northwind.Entities;
 
 namespace Northwind.Controllers
 {
@@ -22,12 +18,10 @@ namespace Northwind.Controllers
     [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None, Duration = 0)]
     public class CategoriesController : ControllerBase
     {
-        private readonly NorthwindContext _dbContext;
         private readonly IMediator _mediator;
 
-        public CategoriesController(NorthwindContext dbContext, IMediator mediator)
+        public CategoriesController(IMediator mediator)
         {
-            _dbContext = dbContext;
             _mediator = mediator;
         }
 

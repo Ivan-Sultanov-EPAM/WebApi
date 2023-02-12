@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Northwind.Application.Commands.Products;
 using Northwind.Application.Models.Requests;
 using Northwind.Application.Models.Responses;
 using Northwind.Application.Queries.Products;
-using Northwind.Data;
-using Northwind.Entities;
 
 namespace Northwind.Controllers
 {
@@ -22,12 +18,10 @@ namespace Northwind.Controllers
     [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None, Duration = 0)]
     public class ProductsController : ControllerBase
     {
-        private readonly NorthwindContext _dbContext;
         private readonly IMediator _mediator;
 
-        public ProductsController(NorthwindContext dbContext, IMediator mediator)
+        public ProductsController(IMediator mediator)
         {
-            _dbContext = dbContext;
             _mediator = mediator;
         }
         

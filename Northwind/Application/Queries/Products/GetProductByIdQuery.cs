@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using MediatR;
+﻿using MediatR;
 using Northwind.Application.Models.Responses;
 
 namespace Northwind.Application.Queries.Products

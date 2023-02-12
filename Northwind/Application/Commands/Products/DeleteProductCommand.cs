@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Northwind.Application.Models.Responses;
 
 namespace Northwind.Application.Commands.Products
 {

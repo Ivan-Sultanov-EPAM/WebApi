@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Northwind.Data;
-using Northwind.Extensions;
 
 namespace Northwind.Application.Commands.Categories
 {
