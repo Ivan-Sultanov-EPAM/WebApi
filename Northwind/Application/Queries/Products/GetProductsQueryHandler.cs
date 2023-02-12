@@ -22,6 +22,9 @@ namespace Northwind.Application.Queries.Products
         public async Task<List<ProductResponseDto>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
         {
             return await _dbContext.Products
+                .Where(p => request.CategoryId == null || p.CategoryId == request.CategoryId)
+                .Skip(request.PageSize * request.PageNumber)
+                .Take(request.PageSize)
                 .Select(p => p.ToProductResponseDto())
                 .ToListAsync(cancellationToken);
         }
