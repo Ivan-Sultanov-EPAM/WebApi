@@ -27,7 +27,7 @@ namespace Northwind.Controllers
         
         [HttpGet(Name = "Products_GetProducts")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<ProductResponseDto>>> GetProducts(int pageNumber, int pageSize, int? categoryId)
+        public async Task<ActionResult<IEnumerable<ProductResponseDto>>> GetProducts(int pageNumber = 0, int pageSize = 10, int? categoryId = null)
         {
             return await _mediator
                 .Send(new GetProductsQuery(pageNumber, pageSize, categoryId));

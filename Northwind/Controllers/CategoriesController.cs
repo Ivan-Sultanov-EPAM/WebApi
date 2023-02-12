@@ -53,6 +53,11 @@ namespace Northwind.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> EditCategory(int categoryId, EditCategoryRequestDto categoryDto)
         {
+            if (categoryDto.CategoryName.Length > 15)
+            {
+                return BadRequest("Category name should not be longer than 15 symbols.");
+            }
+
             try
             {
                 await _mediator
@@ -76,6 +81,11 @@ namespace Northwind.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> AddCategory(AddCategoryRequestDto categoryDto)
         {
+            if (categoryDto.CategoryName.Length > 15)
+            {
+                return BadRequest("Category name should not be longer than 15 symbols.");
+            }
+
             int categoryId;
 
             try

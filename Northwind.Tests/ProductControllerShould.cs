@@ -20,7 +20,7 @@ namespace Northwind.Tests
             var getResult = await _apiClient.GetAsync(uri).ConfigureAwait(false);
 
             // Assert
-            getResult.StatusCode.Should().Be((HttpStatusCode)200);
+            getResult.StatusCode.Should().Be(HttpStatusCode.OK);
 
             // Act
             var getResponseContent = await getResult.Content.ReadAsStringAsync().ConfigureAwait(false);
@@ -39,7 +39,7 @@ namespace Northwind.Tests
             var getResult = await _apiClient.GetAsync(uri).ConfigureAwait(false);
 
             // Assert
-            getResult.StatusCode.Should().Be((HttpStatusCode)200);
+            getResult.StatusCode.Should().Be(HttpStatusCode.OK);
 
             // Act
             var getResponseContent = await getResult.Content.ReadAsStringAsync().ConfigureAwait(false);
@@ -58,7 +58,7 @@ namespace Northwind.Tests
             var getResult = await _apiClient.GetAsync(uri).ConfigureAwait(false);
 
             // Assert
-            getResult.StatusCode.Should().Be((HttpStatusCode)200);
+            getResult.StatusCode.Should().Be(HttpStatusCode.OK);
 
             // Act
             var getResponseContent = await getResult.Content.ReadAsStringAsync().ConfigureAwait(false);
@@ -77,7 +77,7 @@ namespace Northwind.Tests
             var getResult = await _apiClient.GetAsync(uri).ConfigureAwait(false);
 
             // Assert
-            getResult.StatusCode.Should().Be((HttpStatusCode)200);
+            getResult.StatusCode.Should().Be(HttpStatusCode.OK);
 
             // Act
             var getResponseContent = await getResult.Content.ReadAsStringAsync().ConfigureAwait(false);
@@ -96,7 +96,7 @@ namespace Northwind.Tests
             var getResult = await _apiClient.GetAsync(uri).ConfigureAwait(false);
 
             // Assert
-            getResult.StatusCode.Should().Be((HttpStatusCode)200);
+            getResult.StatusCode.Should().Be(HttpStatusCode.OK);
 
             // Act
             var getResponseContent = await getResult.Content.ReadAsStringAsync().ConfigureAwait(false);
@@ -114,7 +114,7 @@ namespace Northwind.Tests
             var getResult = await _apiClient.GetAsync(uri).ConfigureAwait(false);
 
             // Assert
-            getResult.StatusCode.Should().Be((HttpStatusCode)404);
+            getResult.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
         [Fact]
@@ -139,7 +139,7 @@ namespace Northwind.Tests
             var getResult = await _apiClient.PutAsync(uri, request.ToStringContent()).ConfigureAwait(false);
 
             // Assert
-            getResult.StatusCode.Should().Be((HttpStatusCode)200);
+            getResult.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
         [Fact]
@@ -164,7 +164,7 @@ namespace Northwind.Tests
             var getResult = await _apiClient.PostAsync(uri, request.ToStringContent()).ConfigureAwait(false);
 
             // Assert
-            getResult.StatusCode.Should().Be((HttpStatusCode)200);
+            getResult.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
         [Fact]
@@ -189,7 +189,7 @@ namespace Northwind.Tests
             var getPostResult = await _apiClient.PostAsync(postUri, request.ToStringContent()).ConfigureAwait(false);
 
             // Assert
-            getPostResult.StatusCode.Should().Be((HttpStatusCode)200);
+            getPostResult.StatusCode.Should().Be(HttpStatusCode.OK);
 
             // Act
             var getResponseContent = await getPostResult.Content.ReadAsStringAsync().ConfigureAwait(false);
@@ -200,7 +200,7 @@ namespace Northwind.Tests
             var getDeleteResult = await _apiClient.DeleteAsync(uri).ConfigureAwait(false);
 
             // Assert
-            getDeleteResult.StatusCode.Should().Be((HttpStatusCode)200);
+            getDeleteResult.StatusCode.Should().Be(HttpStatusCode.OK);
         }
     }
 }
