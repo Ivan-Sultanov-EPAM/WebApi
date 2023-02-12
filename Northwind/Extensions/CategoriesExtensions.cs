@@ -21,5 +21,14 @@ namespace Northwind.Extensions
             category.CategoryName = request.CategoryName;
             category.Description = request.Description;
         }
+
+        public static Category ToCategory(this AddCategoryCommand category)
+        {
+            return new Category
+            {
+                CategoryName = category.CategoryName,
+                Description = category.Description
+            };
+        }
     }
 }

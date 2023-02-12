@@ -114,10 +114,5 @@ namespace Northwind.Controllers
 
             return products;
         }
-
-        private bool ProductsExists(int productId)
-        {
-            return _dbContext.Products.Any(e => e.ProductId == productId);
-        }
     }
 }

@@ -80,12 +80,21 @@ namespace Northwind.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Category>> AddCategory(Category category)
+        public async Task<IActionResult> AddCategory(AddCategoryRequestDto categoryDto)
         {
-            _dbContext.Categories.Add(category);
-            await _dbContext.SaveChangesAsync();
+            int categoryId;
 
-            return CreatedAtAction("GetCategories", new { id = category.CategoryId }, category);
+            try
+            {
+                categoryId = await _mediator
+                    .Send(new AddCategoryCommand(categoryDto));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
+            return Ok(categoryId);
         }
 
         [HttpDelete("{categoryId}", Name = "Categories_DeleteCategory")]
@@ -104,11 +113,6 @@ namespace Northwind.Controllers
             await _dbContext.SaveChangesAsync();
 
             return categories;
-        }
-
-        private bool CategoriesExists(int categoryId)
-        {
-            return _dbContext.Categories.Any(e => e.CategoryId == categoryId);
         }
     }
 }
