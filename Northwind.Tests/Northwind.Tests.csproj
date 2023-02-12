@@ -30,4 +30,10 @@
     <ProjectReference Include="..\Northwind\Northwind.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Data\SeedDatabaseScript.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
