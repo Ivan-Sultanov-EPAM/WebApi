@@ -98,21 +98,21 @@ namespace Northwind.Controllers
         }
         
         [HttpDelete("{productId}", Name = "Products_DeleteProduct")]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Product>> DeleteProduct(int productId)
+        public async Task<IActionResult> DeleteProduct(int productId)
         {
-            var products = await _dbContext.Products.FindAsync(productId);
-            if (products == null)
+            try
             {
-                return NotFound();
+                await _mediator
+                    .Send(new DeleteProductCommand(productId));
+            }
+            catch (KeyNotFoundException e)
+            {
+                return NotFound(e.Message);
             }
 
-            _dbContext.Products.Remove(products);
-            await _dbContext.SaveChangesAsync();
-
-            return products;
+            return Ok();
         }
     }
 }
