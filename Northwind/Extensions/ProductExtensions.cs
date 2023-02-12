@@ -35,5 +35,21 @@ namespace Northwind.Extensions
             product.ReorderLevel = request.ReorderLevel;
             product.Discontinued = request.Discontinued;
         }
+
+        public static Product ToProduct(this AddProductCommand product)
+        {
+            return new Product
+            {
+                ProductName = product.ProductName,
+                SupplierId = product.SupplierId,
+                CategoryId = product.CategoryId,
+                QuantityPerUnit = product.QuantityPerUnit,
+                UnitPrice = product.UnitPrice,
+                UnitsInStock = product.UnitsInStock,
+                UnitsOnOrder = product.UnitsOnOrder,
+                ReorderLevel = product.ReorderLevel,
+                Discontinued = product.Discontinued
+            };
+        }
     }
 }

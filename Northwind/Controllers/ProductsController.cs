@@ -80,12 +80,21 @@ namespace Northwind.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Product>> AddProduct(Product product)
+        public async Task<IActionResult> AddProduct(AddProductRequestDto productDto)
         {
-            _dbContext.Products.Add(product);
-            await _dbContext.SaveChangesAsync();
+            int productId;
 
-            return CreatedAtAction("GetProducts", new { id = product.ProductId }, product);
+            try
+            {
+                productId = await _mediator
+                    .Send(new AddProductCommand(productDto));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
+            return Ok(productId);
         }
         
         [HttpDelete("{productId}", Name = "Products_DeleteProduct")]
