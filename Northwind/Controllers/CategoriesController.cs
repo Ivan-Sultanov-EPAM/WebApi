@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Northwind.Application.Commands.Categories;
+using Northwind.Application.Models.Requests;
 using Northwind.Application.Models.Responses;
 using Northwind.Application.Queries.Categories;
 using Northwind.Data;
@@ -54,32 +57,23 @@ namespace Northwind.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> EditCategory(int categoryId, Category categories)
+        public async Task<IActionResult> EditCategory(int categoryId, EditCategoryRequestDto categoryDto)
         {
-            if (categoryId != categories.CategoryId)
-            {
-                return BadRequest();
-            }
-
-            _dbContext.Entry(categories).State = EntityState.Modified;
-
             try
             {
-                await _dbContext.SaveChangesAsync();
+                await _mediator
+                    .Send(new EditCategoryCommand(categoryId, categoryDto));
             }
-            catch (DbUpdateConcurrencyException)
+            catch (KeyNotFoundException e)
             {
-                if (!CategoriesExists(categoryId))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NotFound(e.Message);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
             }
 
-            return NoContent();
+            return Ok();
         }
 
         [HttpPost(Name = "Categories_AddCategory")]
