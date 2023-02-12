@@ -22,7 +22,6 @@
 
   <ItemGroup>
     <Folder Include="Application\Commands\Categories\" />
-    <Folder Include="Application\Commands\Products\" />
   </ItemGroup>
 
 </Project>

@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Northwind.Application.Commands.Products;
+using Northwind.Application.Models.Requests;
 using Northwind.Application.Models.Responses;
 using Northwind.Application.Queries.Products;
 using Northwind.Data;
@@ -54,32 +57,23 @@ namespace Northwind.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> EditProduct(int productId, Product product)
+        public async Task<IActionResult> EditProduct(int productId, EditProductRequestDto productDto)
         {
-            if (productId != product.ProductId)
-            {
-                return BadRequest();
-            }
-
-            _dbContext.Entry(product).State = EntityState.Modified;
-
             try
             {
-                await _dbContext.SaveChangesAsync();
+                await _mediator
+                    .Send(new EditProductCommand(productId, productDto));
             }
-            catch (DbUpdateConcurrencyException)
+            catch (KeyNotFoundException e)
             {
-                if (!ProductsExists(productId))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NotFound(e.Message);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
             }
 
-            return NoContent();
+            return Ok();
         }
         
         [HttpPost(Name = "Products_AddProduct")]
